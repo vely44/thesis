@@ -1,2 +1,2 @@
-# thesis
-thesis fsm and software
+# Low Power Device - Thesis 
+Software for using the custom board.
