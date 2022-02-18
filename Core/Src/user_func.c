@@ -117,24 +117,6 @@ int one_measureV(void)
 	return raw_data;
 }
 
-//not used
-void tenset_measure(void)
-{
-	uint16_t raw_data;
-	float voltage;
-	for(int i=0;i<=10;i++)
-	{
-		HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
-		raw_data = HAL_ADC_GetValue(&hadc);
-		voltage = raw_data;
-		voltage = (voltage/4095*3.3)-0.04;//small error correction
-		//toggle led on for conversion tracking
-
-		//begin uart transmission
-		debugtool("value here");
-		blinkLED(1);
-	}
-}
 
 //Low-Power/Sleep
 void lowpower(void){
@@ -160,12 +142,6 @@ void goto_sleep(void){
 	debugtool("#sys# going in sleep mode");
 	HAL_ResumeTick();
 
-}
-
-void wake_up(void){
-
-
-	debugtool("#sys# the device is back in normal mode");
 }
 
 //timer
@@ -224,23 +200,6 @@ uint8_t read_uart(void)
 	return UART1_rxBuffer[0];
 }
 
-//old test version
-void read_uart_test(void)
-{
-	uint8_t UART1_rxBuffer[10] = {0};
-	debugtool("MENU 1/2");
-	while(HAL_UART_Receive(&huart2, UART1_rxBuffer,1,500)!=HAL_OK){
-		debugtool("yes");
-		break;
-	}
-	//HAL_UART_Receive(&huart2, UART1_rxBuffer,20,300);
-	HAL_UART_Transmit(&huart2, UART1_rxBuffer , 1 , 300);
-	HAL_UART_Transmit(&huart2, UART1_rxBuffer , 1 , 300);
-	HAL_UART_Transmit(&huart2, UART1_rxBuffer , 1 , 300);
-	HAL_UART_Transmit(&huart2, UART1_rxBuffer , 1 , 300);
-	HAL_UART_Transmit(&huart2, UART1_rxBuffer , 1 , 300);
-	debugtool("printed");
-}
 
 
 

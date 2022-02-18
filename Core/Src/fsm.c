@@ -99,7 +99,7 @@ event_e generateEvent(void)
     	 }
     	  debugtool("[FSM] #GENERATE EVENT# Send Answer on UART\r\n");
     	  average = average/ccounter;
-    		average = (average/4095*3.3)-0.04;
+    	  average = (average/4095*3.3)-0.04;
     	  sprintf(message, "%f\r\n", average);
     	  HAL_UART_Transmit(&huart2, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
     	  debugtool(message);
@@ -189,20 +189,6 @@ void eventHandler(event_e event)
    currentState = nextState;
 }
 
-//------------------------------------------------ CVM functions executed in FSM
-/*
-event_e CVMinitialise(void)
-{
-   // Initialise all subsystems (devices)
-    debugtool("[FSM]init part");
-    blinkLED(7);
-
-   return E_SLEEP;
-}
-*/
-
-
-
 
 event_e check_input(void)
 {
@@ -218,7 +204,6 @@ event_e check_input(void)
    {
       case 'a':
     	  event = E_1ST;
-
          break;
       case 'b':
          event = E_2ND;
@@ -244,7 +229,6 @@ event_e check_input2(void)
    {
       case 'a':
     	  event = E_RE_INIT;
-
          break;
       case 'b':
          event = E_RETURN_MEASURE;
@@ -256,87 +240,6 @@ event_e check_input2(void)
    return event;
 }
 
-
-/*
-event_e check_setup(void)
-{
-	char coin = '0';
-	event_e event = E_SLEEP;
-
-   debugtool("[USERFUNC] Checking Setup ");
-   blinkLED(2);
-
-   coin = '2';
-   //coin = CNAinputCoin();
-   switch(coin)
-   {
-      case '1':
-         event = E_SETFREQ;
-         break;
-      case '2':
-         event = E_START_NEW_MEASURE;
-         break;
-      default:
-    	  event = E_RETURN_SLEEP;
-    	  break;
-   }
-   return event;
-}
-*/ /*
-event_e check_freq(void)
-{
-	char coin = '0';
-	int freq;
-	event_e event = E_SLEEP;
-
-   debugtool("[USERFUNC] Checking Frequency ");
-   blinkLED(2);
-
-   coin = '2';
-   //coin = CNAinputCoin();
-   switch(coin)
-   {
-      case '1':
-         freq = 10;
-    	  event = E_RETURN_SLEEP;
-         break;
-      case '2':
-          freq = 50;
-         event = E_RETURN_SLEEP;
-         break;
-      default:
-          freq = 100;
-    	  event = E_RETURN_SLEEP;
-    	  break;
-   }
-   return event;
-}
-
-*/ /*
-char CNAinputCoin(void)
-{
-   int coinIsOK = 0;
-   char coin = '0';
-   while (!coinIsOK)
-   {
-      coin = KYBgetchar();
-      switch (coin)
-      {
-         case '1':
-        	 debugtool("[FSM] case 1 ");
-         case '2':
-        	 debugtool("[FSM] and case 2");
-            coinIsOK = 1;
-            break;
-         default:
-            debugtool("[FSM] case 1 and case 2");
-            blinkLED(2);
-            break;
-      }
-   }
-   return coin;
-}
-*/
 char KYBgetchar(void)
 {
    char c = read_uart();
