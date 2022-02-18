@@ -82,21 +82,30 @@ event_e generateEvent(void)
     	  MX_TIM3_Init();
     	  MX_ADC_Init();
     	  //Start ADC TIM3
-    	  HAL_ADC_Start(&hadc);
+
     	  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
     	  debugtool("[FSM] #GENERATE EVENT# Measure ADC Voltage");
     	 int counter=10;
+    	 int ccounter = counter;
+    	 float average = 0;
+    	 char message[10];
     	 while(counter)
     	 {
-    		 one_measure();
+    		 HAL_ADC_Start(&hadc);
+    		 average += one_measureV();
+    		 HAL_ADC_Stop(&hadc);
     		 counter--;
     	 }
     	  debugtool("[FSM] #GENERATE EVENT# Send Answer on UART\r\n");
-
+    	  average = average/ccounter;
+    		average = (average/4095*3.3)-0.04;
+    	  sprintf(message, "%f\r\n", average);
+    	  HAL_UART_Transmit(&huart2, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+    	  debugtool(message);
     	  //Stop ADC TIM3
     	  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-    	  HAL_ADC_Stop(&hadc);
+
          break;
       case S_SETUP:
     	  debugtool("[FSM] #GENERATE EVENT# S_SETUP");

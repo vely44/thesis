@@ -16,6 +16,8 @@ void UART_set(void);
 
 void one_measure(void);
 
+int one_measureV(void);
+
 void tenset_measure(void);
 
 void lowpower(void);

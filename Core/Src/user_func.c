@@ -77,19 +77,44 @@ void one_measure(void)
 	uint16_t raw_data;
 	float voltage;
 	char message1[10];
+	char message2[10];
 
-	HAL_ADC_PollForConversion(&hadc, 300);
+	HAL_ADC_PollForConversion(&hadc, 1000);
 	raw_data = HAL_ADC_GetValue(&hadc);
 	voltage = raw_data;
 	voltage = (voltage/4095*3.3)-0.04;//small error correction
 
 	//begin uart transmission
 	debugtool("value here");
-	sprintf(message1, "%hu\r\n", voltage);
+	sprintf(message1, "%f\r\n", voltage);
+	sprintf(message2, "%hu\r\n", raw_data);
+	HAL_UART_Transmit(&huart2, (uint8_t*)message2, strlen(message2), HAL_MAX_DELAY);
 	debugtool(message1);
 	HAL_Delay(500);
 	blinkLED(5);
-	raw_data= 0;
+}
+
+int one_measureV(void)
+{
+	uint16_t raw_data;
+	float voltage;
+	char message1[10];
+	char message2[10];
+
+	HAL_ADC_PollForConversion(&hadc, 1000);
+	raw_data = HAL_ADC_GetValue(&hadc);
+	voltage = raw_data;
+	voltage = (voltage/4095*3.3)-0.04;//small error correction
+
+	//begin uart transmission
+	debugtool("value here");
+	sprintf(message1, "%f\r\n", voltage);
+	sprintf(message2, "%hu\r\n", raw_data);
+	HAL_UART_Transmit(&huart2, (uint8_t*)message2, strlen(message2), HAL_MAX_DELAY);
+	debugtool(message1);
+	HAL_Delay(500);
+	blinkLED(5);
+	return raw_data;
 }
 
 //not used
