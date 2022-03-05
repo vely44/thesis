@@ -63,7 +63,7 @@ void UART_set(void)
 {
 
 	//UART
-	MX_USART2_UART_Init();
+	//MX_USART2_UART_Init();
 	//UART Interrupt is ON
 	HAL_UART_Receive_IT(&huart2, data , 1);
 
@@ -186,7 +186,7 @@ void debugtool(char message4[100]){
 
 uint8_t read_uart(void)
 {
-	uint8_t  UART1_rxBuffer[1];
+	uint8_t  UART1_rxBuffer[1]={0};
 
 	while(HAL_UART_Receive(&huart2, UART1_rxBuffer, 1, HAL_MAX_DELAY)!=HAL_OK)
 	{
