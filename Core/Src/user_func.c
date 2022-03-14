@@ -83,15 +83,10 @@ void one_measure(void)
 	raw_data = HAL_ADC_GetValue(&hadc);
 	voltage = raw_data;
 	voltage = (voltage/4095*3.3)-0.04;//small error correction
-
+	sprintf(message2, "%hu\r\n", voltage);
 	//begin uart transmission
-	debugtool("value here");
-	sprintf(message1, "%f\r\n", voltage);
-	sprintf(message2, "%hu\r\n", raw_data);
 	HAL_UART_Transmit(&huart2, (uint8_t*)message2, strlen(message2), HAL_MAX_DELAY);
-	debugtool(message1);
-	HAL_Delay(500);
-	blinkLED(5);
+	return raw_data;
 }
 
 int one_measureV(void)
